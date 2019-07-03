@@ -37,10 +37,19 @@ Public Class ContAloMundo
     Public Event Fechar(ByVal sender As Object, ByVal argPodeFechar As Boolean)
     Public Property MeuTradutor As Joda.Tradutor.Tradutor
     Public Property MeuMensageiro As Joda.Mensageiro.ContMensageiro
-
+    'Metodo público acionado pela plataforma ao Iniciar a Funcionalidade
     Public Sub Carregar()
-
+        MeuTradutor.Traduzir(Me)
+        If Argumentos.Contar > 0 Then
+            Dim meuInfo As New IO.FileInfo(Argumentos.Valor(1))
+            If meuInfo.Exists Then
+                '...
+            Else
+                MeuMensageiro.Mostrar(New Exception(MeuTradutor.Traduzir("Arquivo {0} não foi localizado", meuInfo.Name)))
+            End If
+        Else
+            MeuMensageiro.Mostrar(New Exception(MeuTradutor.Traduzir("Não foi informado argumento de inicialização")))
+        End If
     End Sub
-
 End Class
 ```
