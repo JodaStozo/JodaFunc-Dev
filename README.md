@@ -45,6 +45,12 @@ Public Class ContAloMundo
                 Dim meuInfo As New IO.FileInfo(Argumentos.Valor(1))
                 If meuInfo.Exists Then
                     '...
+                    Dim mensagemTraduzida As String =
+                        MeuTradutor.Traduzir("A Funcionalidade foi carregada com sucesso.")
+                    Dim minhaMsg As New Joda.Mensageiro.Mensagem(Joda.Mensageiro.Mensagem.eTipo.Ok,
+                                        tituloTraduzido, mensagemTraduzida,
+                                        String.Empty)
+                    MeuMensageiro.Mostrar(minhaMsg)
                 Else
                     MeuMensageiro.Mostrar(New Exception(MeuTradutor.Traduzir("Arquivo {0} não foi localizado", meuInfo.Name)))
                 End If
