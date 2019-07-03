@@ -65,9 +65,13 @@ public class ContAloMundo
     public Joda.Argumentos.MeusArgumentos Argumentos { get; set; } = new Joda.Argumentos.MeusArgumentos();
     public TabPage minhaTabpage { get; set; }
     public event AoAlterarEventHandler AoAlterar;
+
     public delegate void AoAlterarEventHandler(object sender, bool argPodeFechar);
+
     public event FecharEventHandler Fechar;
+
     public delegate void FecharEventHandler(object sender, bool argPodeFechar);
+
     public Joda.Tradutor.Tradutor MeuTradutor { get; set; }
     public Joda.Mensageiro.ContMensageiro MeuMensageiro { get; set; }
     // Metodo público acionado pela plataforma ao Iniciar a Funcionalidade
@@ -76,14 +80,22 @@ public class ContAloMundo
         MeuTradutor.Traduzir(this);
         if (Argumentos.Contar > 0)
         {
-            System.IO.FileInfo meuInfo = new System.IO.FileInfo(Argumentos.Valor(1));
-            if (meuInfo.Exists)
+            try
             {
+                System.IO.FileInfo meuInfo = new System.IO.FileInfo(Argumentos.Valor(1));
+                if (meuInfo.Exists)
+                {
+                }
+                else
+                    MeuMensageiro.Mostrar(new Exception(MeuTradutor.Traduzir("Arquivo {0} não foi localizado", meuInfo.Name)));
             }
-            else
-                MeuMensageiro.Mostrar(new Exception(MeuTradutor.Traduzir("Arquivo {0} não foi localizado", meuInfo.Name)));
+            catch (Exception ex)
+            {
+                MeuMensageiro.Mostrar(ex);
+            }
         }
         else
             MeuMensageiro.Mostrar(new Exception(MeuTradutor.Traduzir("Não foi informado argumento de inicialização")));
     }
 }
+```
